@@ -7,7 +7,9 @@ public class Criteria {
 //Criteria는 검색의 기준을 의미한다.
 	
 	private int pageNum;
+	//pageNum = 페이지 번호
 	private int amount;
+	// amount = 데이터 수
 	
 	//
 	public Criteria(int pageNum, int amount) {
