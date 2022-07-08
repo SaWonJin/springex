@@ -42,6 +42,10 @@
 				
 				<form action="/board/modify" id="operform" method="get">
 					<input type="hidden" id="bno" name="bno" value='<c:out value="${board.bno}"/>'>
+					<!-- 밑에 두개는 paging처리르 위한 값들로 hidden으로 보내준다. -->
+					<!-- c태그 옆 value에 ${cri.pageNum}에서 cri는 컨트롤러에서 @ModelAttribute로 지정했던 cri이다. -->
+					<input type="hidden" id="pageNum" value='<c:out value="${cri.pageNum}"/>'>
+					<input type="hidden" id="amount" value='<c:out value="${cri.amount}"/>'>
 				</form>
 			</div>
 		</div>
@@ -56,7 +60,14 @@
 	}
 	
 	function list() {
-		location.href = "/board/list";
+		
+		/* 
+		그냥 처리하게 되면 
+		location.href = "/board/list"; 이렇게 작성해도 상관없지만 
+		list로 넘어갈때 내가 본 게시물이 있는 페이지로 넘어가고 싶다면 아래와 같이 URL을 바꿔주면 된다.
+		*/
+		
+		location.href = "/board/list?pageNum="+${cri.pageNum}+"&amount="+${cri.amount};
 	}
 </script>
 

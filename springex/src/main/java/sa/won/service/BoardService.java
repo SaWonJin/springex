@@ -19,4 +19,7 @@ public interface BoardService {
 	
 	//페이징 처리를 위해 변경
 	public List<boardVO> getList(Criteria cri);
+	
+	//totalcount를 위해 추가
+	public int getTotal(Criteria cri);
 }

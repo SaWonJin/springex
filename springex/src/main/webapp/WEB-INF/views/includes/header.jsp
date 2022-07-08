@@ -13,6 +13,9 @@
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -377,4 +380,4 @@
 
         <div id="page-wrapper">
         
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+       

@@ -26,9 +26,10 @@ public class PageDTO {
 		
 		int realEnd = (int) (Math.ceil((total * 1.0) / cri.getAmount()));
 		
-		if(realEnd < this.endPage) {
-			this.endPage = realEnd;
-		}
+			if(realEnd < this.endPage) {
+				this.endPage = realEnd;
+			}
+			//위의 if식이 필요한 이유는 혹시 모를 오류에 대비하기 위함이다. 
 		
 		this.prev = this.startPage > 1;
 		
@@ -48,6 +49,11 @@ public class PageDTO {
  [1] 페이징 끝 번호(endPage) 계산
  
  	this.endPage = (int)(Math.ceil(cri.getPageNum() / 10.0))* 10;
+ 	
+ 	위와 같이 계산하는 이유 : Long형으로 되어 있기 때문에 (int)를 넣어 정수값으로 바꿔준다. 
+ 						Math.ceil은 값을 올림 해준다. 
+ 						ex> PageNum이 1~10 까지는 10을 보여주고
+ 							11부터는 올림 하면 2가 되기때문에 20을 보여준다. 
  
  	끝 번호를 먼저 계산하는 이유는	시작 번호를 계산하기 수월하기 때문입니다. 
  
@@ -59,8 +65,13 @@ public class PageDTO {
  
  [3] total을 통한 endPage의 재계산
  
+ 	전체 데이터 수(total)를 이용해서 진짜 끝 페이지(realEnd)가 몇 번까지 되는지를 계산한다.
+ 	진짜 끝 페이지(realEnd)가 구해둔 끝 번호(endPage) 보다 작다면 끝 번호는 작은 값이 되어야 한다. 
+ 
  [4] 이전(prev)과 다음(next) 계산
  
- 이전(perv)의 경우는 시작 번호(startPage)가 1보다 큰 경우라면 존재하게 됩니다.
+ 	이전의 경우는 시작 번호가 1보다 큰 경우라면 존재하게 된다. 
+ 	
+ 	다음으로 가는 링크의 경우 위의 realEnd가 끝 번호(endPage) 보다 큰 경우에만 존재하게 된다. 
  
  */

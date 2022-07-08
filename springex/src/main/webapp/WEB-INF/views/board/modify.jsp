@@ -7,6 +7,10 @@
 
 <%@ include file="../includes/header.jsp" %>
 	<form role="form" action="/board/modify" method="post">
+	<!-- 추가 
+	pageNum 과 amount라는 값이 존재하므로 <form>태그내에서 같이 전송할 수 있게 수정해야 한다. -->
+	<input type="hidden" name="pageNum" value="<c:out value="${cri.pageNum}"/>">
+	<input type="hidden" name="amount" value="<c:out value="${cri.amount}"/>">
 		<div class="form-group">
 			<label>Bno</label>
 			<input class="form-control" name="bno" value='<c:out value="${board.bno}"/>' readonly="readonly">
@@ -17,7 +21,7 @@
 			<input class="form-control" name="title" value='<c:out value="${board.title}"/>'>
 		</div>
 		
-		<div class="form-group">>
+		<div class="form-group">
 			<label>Text area</label>
 			<textarea class="form-control" rows="3" name="content"><c:out value="${baord.content}"/></textarea>
 		</div>
@@ -70,8 +74,22 @@
 				//return;
 				
 				formObj.attr("action","/board/list").attr("method","get");
+				
+				/* 아래는 왜 있는지 모르겠는 스크립트..  */
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				
+				//-----------------
 				formObj.empty();
+				formObj.append(pageNumTag);
+				formObj.append(amountTag);
 		
+				/* 책 설명으로는 
+					만일 사용자가 "List"버튼을 클릭한다면 <form>태그에서 필요한 부분만 잠시 복사(clone)해서 보관해두고
+					<form>태그 내의 모든 내용은 지워버린다.(empty)
+					이후에 필요한 태그들만 추가해서 '/board/list'를 호출하는 형태를 이용합니다.
+				*/
+				
 			}
 			formObj.submit();
 		});

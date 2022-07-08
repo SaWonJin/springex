@@ -77,6 +77,17 @@ public class BoardServiceImpl implements BoardService{
 		return mapper.getListWithPaging(cri); 
 	}
 
+	//총 개수 가져오기 
+	// 페이징 처리할 때 필요한 기능이다.
+	@Override
+	public int getTotal(Criteria cri) {
+
+		log.info("get totla count");
+		
+		return mapper.getTotalCount(cri);
+	
+	}
+
 	
 	
 	

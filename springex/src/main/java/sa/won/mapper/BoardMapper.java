@@ -17,6 +17,9 @@ public interface BoardMapper {
 	//페이징을 위해 앞서 만든 Criteria타입을 파라미터로 받는 메서드 생성
 	public List<boardVO> getListWithPaging(Criteria cri);
 	
+	//페이징 후 totlacount를 알아오기 위한 메서드 생성
+	public int getTotalCount(Criteria cri);
+	
 	public void insert(boardVO board);
 	
 	public void insertSelectKey(boardVO board);
