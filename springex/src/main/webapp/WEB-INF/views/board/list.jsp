@@ -32,9 +32,9 @@
 					<c:forEach items="${list}" var="board">
 						<tr>
 							<td><c:out value="${board.bno}" /></td>
-							<td>
-							<a class="move" href=<c:out value="${board.bno}"/>>
-							<c:out value="${board.title}" /></a></td>
+							<td><a class="move" href=<c:out value="${board.bno}"/>>
+									<c:out value="${board.title}" />
+							</a></td>
 							<td><c:out value="${board.writer}" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd"
 									value="${board.regdate}" /></td>
@@ -45,34 +45,60 @@
 				</table>
 				<!-- table 태그의 끝 -->
 				
+				<!-- 검색 기능 추가  -->
+				<div class="row">
+					<div class="col-lg-12">
+						<form id="searchForm" action="/board/list" method="get">
+							<select name='type'>
+								<option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+								<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+								<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+								<option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+								<option value="TC" <c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목 or 내용</option>
+								<option value="TW" <c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>제목 or 작성자</option>
+								<option value="TCW" <c:out value="${pageMaker.cri.type eq 'TCW'?'selected':''}"/>>제목 or 내용 or 작성자</option>
+							</select> <input type="text" name='keyword' /> 
+								<input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
+								<input type="hidden" name='amount' value="${pageMaker.cri.amount}">
+							
+							<button class="btn btn-default">search</button>
+						</form>
+					</div>
+				</div>
+
 				<!-- pageing 시작 -->
 				<div class='pull-right'>
 					<ul class="pagination">
 						<c:if test="${pageMaker.prev}">
-						<li class="paginate_button previous">
-						<a href="${pageMaker.startPage -1}">Previous</a></li>
+							<li class="paginate_button previous"><a
+								href="${pageMaker.startPage -1}">Previous</a></li>
 						</c:if>
-						
+
 						<c:forEach var="num" begin="${pageMaker.startPage}"
 							end="${pageMaker.endPage}">
 							<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
 								<a href="${num}">${num}</a>
 							</li>
 						</c:forEach>
-						
+
 						<c:if test="${pageMaker.next}">
-							<li class="paginate_button next"><a href="${pageMaker.endPage +1}">Next</a></li>
+							<li class="paginate_button next"><a
+								href="${pageMaker.endPage +1}">Next</a></li>
 						</c:if>
-						
+
 						<!-- 위 <a>에 값만 넣어주게 된다면 숫자만 들어가기 때문에 URL이 존재하지 않는다고 뜬다. 
 						따라서 스크립트를 이용해서 추가해주어야 한다. 
 						스크립트는 하단에 페이징을 위한 스크립트를 보면 된다. -->
 					</ul>
 				</div>
-				
+
 				<form id="actionForm" action="/board/list" method="get">
-					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+					<input type="hidden" name="pageNum"
+						value="${pageMaker.cri.pageNum}"> <input type="hidden"
+						name="amount" value="${pageMaker.cri.amount}">
+						<!-- 검색 추가  -->
+						<input type="hidden" name='type' value="${pageMaker.cri.type}">
+						<input type="hidden" name='keyword' value="${pageMaker.cri.keyword}">
 				</form>
 				<!-- List에 get방식으로 값들을 넘겨주기 위해 hidden 타입으로 만들었다.  -->
 
@@ -111,9 +137,10 @@
 		function send() {
 			location.href = "/board/get?bno=" + result;
 		}
-		
-		
-		$(document).ready(function() {
+
+		$(document)
+				.ready(
+						function() {
 
 							checkModal(result);
 
@@ -124,7 +151,7 @@
 
 								history.replaceState({}, null, null);
 								/* history를 요즘엔 많이 사용안하지만, 알아두면 좋다.  */
-								
+
 								if (result === '' || history.state) {
 									/* 만약 result가 가져오는 값이 없다면 돌려보낸다.  */
 									/* 글 쓰기 실패했을 경우 */
@@ -154,38 +181,68 @@
 							$('#close').click(function name() {
 								location.reload();
 							});
-							
+
 							/* 페이징을 위한 스크립트 처리 */
 							var actionForm = $("#actionForm");
-							
-							$(".paginate_button a").on("click", function (e) {
-								
-								e.preventDefault();
-								
-								console.log('click');
-								
-								/* 띄어쓰기도 영향을 준다. 주의해야한다. */
-								actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-								
-								actionForm.submit();
-								/* 위 처리를 다하고 꼭 submit을 해줘야 페이징 처리가 된다.  */
-							});
-							
-							
+
+							$(".paginate_button a").on(
+									"click",
+									function(e) {
+
+										e.preventDefault();
+
+										console.log('click');
+
+										/* 띄어쓰기도 영향을 준다. 주의해야한다. */
+										actionForm
+												.find("input[name='pageNum']")
+												.val($(this).attr("href"));
+
+										actionForm.submit();
+										/* 위 처리를 다하고 꼭 submit을 해줘야 페이징 처리가 된다.  */
+									});
+
 							/* 페이지 번호 같이 넘기기 위한 스크립트 
 							title에 있는 <a>태그 안에 걸어줄 것이다.  */
+
+							$(".move").on("click",function(e) {
+
+								e.preventDefault();
+
+								/* 게시물의 제목을 클릭했을 때 추가로 bno값을 전송하기 위해 input태그를 만들어 추가해준다.  */
+								actionForm.append("<input type='hidden' name='bno' value='"+ $(this).attr("href")+ "'>");
+
+										actionForm.attr("action","/board/get");
+
+										actionForm.submit();
+									});
+
+							/* 
+							검색 기능 스크립트 추가  
+							검색 종류와 키워드 입력 안했을 시 알럿창 띄워주고 
+							그 두개가 되었을 시 처리되게 동작을 만들어준다. 
+							*/
+							var searchForm = $("#searchForm")
 							
-							$(".move").on("click", function (e) {
+							$("#searchForm button").on("click", function(e) {
 								
+								if(!searchForm.find("option:selected").val()){
+									alert("검색종류를 입력하세요.");
+									return false;
+								}
+								
+								if(!searchForm.find("input[name='keyword']").val()){
+									alert("키워드를 입력하세요");
+									return false;
+								}
+								
+								searchForm.find("input[name='pageNum']").val("1");
+								/* 브라우저에서 검색 버튼을 클릭하면 <form>태그의 전송은 막고, 페이지 번호는 1이 되도록 처리한다. */
 								e.preventDefault();
 								
-								/* 게시물의 제목을 클릭했을 때 추가로 bno값을 전송하기 위해 input태그를 만들어 추가해준다.  */
-								actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+								searchForm.submit();
+								
+							});
 							
-								actionForm.attr("action","/board/get");
-							
-								actionForm.submit();
-							})
-
 						});
 	</script>

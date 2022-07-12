@@ -89,6 +89,9 @@ public class BoardController {
 		
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
+		// 검색 기능이 추가 되었기 때문에 아래 두개 추가해준다. 
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		
 		return "redirect:/board/list";
 	}
@@ -109,7 +112,11 @@ public class BoardController {
 		// 애초에 pageNum=1 / amount=10 으로 잡히는데..?
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
+		// 검색 기능이 추가 되었기 때문에 아래 두개 추가해준다. 
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		
 		return "redirect:/board/list";
+		//리다이렉트는 get 방식으로 이루어진다. 
 	}
 }

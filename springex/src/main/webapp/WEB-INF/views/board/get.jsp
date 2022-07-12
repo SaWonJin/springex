@@ -46,6 +46,9 @@
 					<!-- c태그 옆 value에 ${cri.pageNum}에서 cri는 컨트롤러에서 @ModelAttribute로 지정했던 cri이다. -->
 					<input type="hidden" id="pageNum" value='<c:out value="${cri.pageNum}"/>'>
 					<input type="hidden" id="amount" value='<c:out value="${cri.amount}"/>'>
+					<!-- 검색기능이 추가되면서 아래 두 값들도 보내준다. -->
+					<input type="hidden" id="keyword" value='<c:out value="${cri.keyword}"/>'>
+					<input type="hidden" id="type" value='<c:out value="${cri.type}"/>'>
 				</form>
 			</div>
 		</div>
@@ -61,13 +64,21 @@
 	
 	function list() {
 		
+		var type = "${cri.type}";
+		var keyword = "${cri.keyword}";
 		/* 
 		그냥 처리하게 되면 
 		location.href = "/board/list"; 이렇게 작성해도 상관없지만 
 		list로 넘어갈때 내가 본 게시물이 있는 페이지로 넘어가고 싶다면 아래와 같이 URL을 바꿔주면 된다.
 		*/
-		
-		location.href = "/board/list?pageNum="+${cri.pageNum}+"&amount="+${cri.amount};
+		if(type == ""|| keyword == "") {
+			/* type 과 keyword가 없을 때 = 검색기능 안 할때  */
+			location.href = "/board/list?pageNum="+${cri.pageNum}+"&amount="+${cri.amount}
+			
+		}else{
+			
+		location.href = "/board/list?pageNum="+${cri.pageNum}+"&amount="+${cri.amount}+"&type="+type+"&keyword="+keyword;
+		}
 	}
 </script>
 

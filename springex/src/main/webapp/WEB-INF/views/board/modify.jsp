@@ -9,8 +9,12 @@
 	<form role="form" action="/board/modify" method="post">
 	<!-- 추가 
 	pageNum 과 amount라는 값이 존재하므로 <form>태그내에서 같이 전송할 수 있게 수정해야 한다. -->
-	<input type="hidden" name="pageNum" value="<c:out value="${cri.pageNum}"/>">
-	<input type="hidden" name="amount" value="<c:out value="${cri.amount}"/>">
+	<input type="hidden" name='pageNum' value="<c:out value="${cri.pageNum}"/>">
+	<input type="hidden" name='amount' value="<c:out value="${cri.amount}"/>">
+	<!-- 추가
+	type 과 keyword도 같이 보내 검색 페이징도 보내준다.  -->
+	<input type="hidden" name='type' value="<c:out value="${cri.type}"/>">
+	<input type="hidden" name='keyword' value="<c:out value="${cri.keyword}"/>">
 		<div class="form-group">
 			<label>Bno</label>
 			<input class="form-control" name="bno" value='<c:out value="${board.bno}"/>' readonly="readonly">
@@ -78,11 +82,18 @@
 				/* 아래는 왜 있는지 모르겠는 스크립트..  */
 				var pageNumTag = $("input[name='pageNum']").clone();
 				var amountTag = $("input[name='amount']").clone();
+				/* 페이징 + 검색기능이 추가되어 스크립츠에도 추가되어야 한다. */
+				var keywordTag = $("input[name='keyword']").clone();
+				var typeTag = $("input[name='type']").clone();
+				
 				
 				//-----------------
 				formObj.empty();
 				formObj.append(pageNumTag);
 				formObj.append(amountTag);
+				/* 검색 기능 추가로 아래 두개 추가 */
+				formObj.append(keywordTag);
+				formObj.append(typeTag);
 		
 				/* 책 설명으로는 
 					만일 사용자가 "List"버튼을 클릭한다면 <form>태그에서 필요한 부분만 잠시 복사(clone)해서 보관해두고
